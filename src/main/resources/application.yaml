@@ -5,6 +5,9 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: none
+  data:
+    rest:
+      basePath: /target
 
 debug: true
 
