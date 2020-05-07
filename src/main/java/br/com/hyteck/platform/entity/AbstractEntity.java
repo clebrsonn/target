@@ -16,9 +16,10 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Data
-@MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class AbstractEntity<U> {
+@MappedSuperclass
+public class AbstractEntity<U> {
+
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(

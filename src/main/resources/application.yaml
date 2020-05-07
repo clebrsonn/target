@@ -4,10 +4,10 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
   data:
     rest:
-      basePath: /target
+      basePath: /api
 
 debug: true
 
