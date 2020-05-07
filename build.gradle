@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'br.com.hyteck'
-version = '0.0.5-SNAPSHOT'
+version = '0.0.6-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {
