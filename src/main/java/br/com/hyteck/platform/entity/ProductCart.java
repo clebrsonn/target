@@ -1,6 +1,7 @@
 package br.com.hyteck.platform.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 
@@ -18,6 +19,7 @@ public class ProductCart extends AbstractEntity<String>{
     @ManyToOne
     private Cart cart;
 
+    @Range(min = 1)
     private Integer quantity;
 
 
