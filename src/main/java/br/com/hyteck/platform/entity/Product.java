@@ -1,9 +1,11 @@
 package br.com.hyteck.platform.entity;
 
+import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -11,10 +13,13 @@ import java.util.Objects;
 @Data
 public class Product extends AbstractEntity<String>{
 
+    @NotEmpty
     private BigDecimal price;
 
     private String description;
 
+    @NotEmpty
+    @NotNull
     private String name;
 
     @Override
