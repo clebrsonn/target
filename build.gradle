@@ -9,7 +9,7 @@ plugins {
 
 group = 'br.com.hyteck'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '14'
+sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {
 	developmentOnly
