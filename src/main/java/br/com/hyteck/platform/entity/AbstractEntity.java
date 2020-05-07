@@ -2,6 +2,7 @@ package br.com.hyteck.platform.entity;
 
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -25,7 +26,7 @@ public abstract class AbstractEntity<U> {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(length = 60, unique = true, nullable = false)
-    private UUID id;
+    protected UUID id;
 
     @Version
     private Long version;

@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -21,16 +22,12 @@ public class Product extends AbstractEntity<String>{
         if (this == o) return true;
         if (!(o instanceof Product)) return false;
         if (!super.equals(o)) return false;
-
         Product product = (Product) o;
-
         return getName().equals(product.getName());
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + getName().hashCode();
-        return result;
+        return Objects.hash(super.hashCode(), getName());
     }
 }
