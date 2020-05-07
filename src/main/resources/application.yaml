@@ -15,6 +15,3 @@ logging:
       springframework:
         boot:
           autoconfigure: ERROR
-server:
-  servlet:
-    context-path: /target
