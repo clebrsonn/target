@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    active: prod
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+
+debug: true
+
+logging:
+  level:
+    web: DEBUG
+    org:
+      springframework:
+        boot:
+          autoconfigure: ERROR
+server:
+  servlet:
+    context-path: /target
