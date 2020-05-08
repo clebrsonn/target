@@ -2,7 +2,7 @@ package br.com.hyteck.platform.entity;
 
 import com.sun.istack.NotNull;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Currency;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.NotEmpty;
@@ -11,9 +11,9 @@ import java.util.Objects;
 
 @Entity
 @Data
-public class Product extends AbstractEntity<String>{
+public class Product extends AbstractEntity<String> {
 
-    @NotEmpty
+    @Currency(value = {"BRL", "USD"})
     private BigDecimal price;
 
     private String description;
