@@ -1,9 +1,9 @@
-package br.com.hyteck.platform.entity;
+package br.com.hyteck.platform.frw;
 
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.GenericGenerator;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -13,34 +13,39 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
-import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
-public class AbstractEntity<U> {
+@Schema
+public abstract class AbstractEntity<U> {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @Column(length = 60, unique = true, nullable = false)
-    protected UUID id;
+    @Column(unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Schema
+    protected Long id;
 
+    @Hidden
     @Version
-    private Long version;
+    private Long version =1L;
 
+    @Hidden
     @CreatedBy
     private U createdBy;
 
+    @Hidden
     @CreatedDate
     private Date createdDate;
 
+    @Hidden
     @LastModifiedBy
     private U lastModifiedBy;
 
+    @Hidden
     @LastModifiedDate
     private Date lastModifiedDate;
 

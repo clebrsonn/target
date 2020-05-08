@@ -1,6 +1,7 @@
 package br.com.hyteck.platform.config;
 
 import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,9 @@ public class SwaggerConfig {
                 .info(new Info()
                         .title("Plataforma Target")
                         .version("1.0.0")
-                        .description("Api usada para o desenvolvimento do carrinho de compras para a Plataforma Target"));
+                        .description("Api usada para o desenvolvimento do carrinho de compras para a Plataforma Target"))
+                .externalDocs(new ExternalDocumentation()
+                        .description("")
+                        .url("/v3"));
     }
 }
