@@ -25,7 +25,8 @@ public class Partner extends AbstractEntity<String> {
     @ManyToMany(mappedBy = "affiliates", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @Schema
     @JsonIgnore
-    private Set<Coupon> coupons = new HashSet<>();
+    @JsonManagedReference
+    private Set<Coupon> coupons;
 
     private String name;
 

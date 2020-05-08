@@ -1,6 +1,7 @@
 package br.com.hyteck.platform.entity;
 
 import br.com.hyteck.platform.frw.AbstractDiscount;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -22,7 +23,7 @@ public class Coupon extends AbstractDiscount {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "AFFILIATED_COUPON", joinColumns = {@JoinColumn(name = "ID_COUPON")},
             inverseJoinColumns = {@JoinColumn(name = "ID_AFFILIATED")})
-//    @JsonBackReference
+    @JsonBackReference
     private Set<Partner> affiliates;
 
 

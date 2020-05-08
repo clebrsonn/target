@@ -16,13 +16,12 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 @Schema
-public class AbstractEntity<U> {
+public abstract class AbstractEntity<U> {
 
     @Id
     @Column(unique = true, nullable = false)
