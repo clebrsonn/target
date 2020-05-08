@@ -1,21 +1,22 @@
-package br.com.hyteck.platform.service;
+package br.com.hyteck.platform.service.impl;
 
 import br.com.hyteck.platform.entity.Product;
 import br.com.hyteck.platform.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.hyteck.platform.service.IServices;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 
 
 @Service
-public class ProductService {
+@AllArgsConstructor
+public class ProductService implements IServices<Product> {
 
-    @Autowired
-    private ProductRepository productRepository;
+
+    private final ProductRepository productRepository;
 
 
     public Page<Product> findall(Pageable pageable) {
@@ -24,15 +25,12 @@ public class ProductService {
     }
 
 
-    public Optional<Product> finById(UUID id) {
+    public Optional<Product> findById(Long id) {
         return productRepository.findById(id);
     }
 
-    public Product save(Product product) {
+    public Product create(Product product) {
         return productRepository.save(product);
     }
 
-    public Product update(Product product) {
-        return productRepository.save(product);
-    }
 }

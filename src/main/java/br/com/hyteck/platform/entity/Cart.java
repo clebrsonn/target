@@ -1,7 +1,9 @@
 package br.com.hyteck.platform.entity;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import br.com.hyteck.platform.frw.AbstractDiscount;
+import br.com.hyteck.platform.frw.AbstractEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -10,16 +12,24 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = false)
-@Data
+@Setter
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Schema
 @Entity
-public class Cart extends AbstractEntity<String>{
+public class Cart extends AbstractEntity<String> {
 
     @OneToMany(mappedBy = "cart")
+    @Schema
     private List<ProductCart> productCart;
 
     @ManyToOne
+    @Schema
     private AbstractDiscount coupon;
 
+    @Schema
     private BigDecimal valueDiscount;
 
 }
