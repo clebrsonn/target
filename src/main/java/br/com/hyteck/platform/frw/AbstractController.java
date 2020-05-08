@@ -16,12 +16,12 @@ import java.util.Optional;
 @AllArgsConstructor
 public abstract class AbstractController<Entity> {
 
-    protected final IServices<Entity> service;
+    protected abstract IServices<Entity> getService();
 
     @Operation(summary = "alteração de entidades")
     @PutMapping(value = "{id}")
     public ResponseEntity<Entity> update(@Parameter @PathVariable Long id, @Parameter @RequestBody Entity Entity) {
-        Entity entities = service.update(id, Entity);
+        Entity entities = getService().update(id, Entity);
 
         return new ResponseEntity<>(entities, HttpStatus.OK);
     }
@@ -29,19 +29,19 @@ public abstract class AbstractController<Entity> {
     @GetMapping
     public ResponseEntity<Page<Entity>> findAll(@Parameter Pageable pageable) {
 
-        Page<Entity> Entitys = service.findall(pageable);
+        Page<Entity> Entitys = getService().findall(pageable);
         return new ResponseEntity<>(Entitys, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Optional<Entity>> findById(@Parameter @PathVariable Long id) {
-        Optional<Entity> Entity = service.findById(id);
+        Optional<Entity> Entity = getService().findById(id);
         return ResponseEntity.ok(Entity);
     }
 
     @PostMapping
     public ResponseEntity<Entity> create(@Parameter @RequestBody Entity entity) {
-        final var entitySave = service.create(entity);
+        final var entitySave = getService().create(entity);
         return new ResponseEntity<>(entitySave, HttpStatus.CREATED);
     }
 

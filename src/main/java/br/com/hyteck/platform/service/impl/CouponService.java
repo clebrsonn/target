@@ -3,6 +3,7 @@ package br.com.hyteck.platform.service.impl;
 import br.com.hyteck.platform.entity.Coupon;
 import br.com.hyteck.platform.repository.CouponRepository;
 import br.com.hyteck.platform.service.IServices;
+import jdk.jshell.spi.ExecutionControl;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,4 +34,7 @@ public class CouponService implements IServices<Coupon> {
         return couponRepository.save(product);
     }
 
+    public Optional<Coupon> findByName(String couponName) {
+        return couponRepository.findByName(couponName);
+    }
 }

@@ -32,4 +32,27 @@ public class Cart extends AbstractEntity<String> {
     @Schema
     private BigDecimal valueDiscount;
 
+    private BigDecimal total;
+
+    private BigDecimal subTotal;
+
+
+    public Cart addProduct(Product product) {
+        productCart.forEach(pCart -> {
+            if (pCart.getId().equals(product.getId())) {
+                pCart.setQuantity(pCart.getQuantity() + 1);
+            } else {
+                getProductCart().add(ProductCart.builder()
+                        .product(product)
+                        .cart(this)
+                        .build()
+                );
+            }
+
+
+        });
+        return this;
+
+    }
+
 }
