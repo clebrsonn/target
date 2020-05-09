@@ -8,6 +8,7 @@ import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Getter
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@AttributeOverride(name="id", column=@Column(name = "PRO_CAR_ID"))
+@AttributeOverride(name = "id", column = @Column(name = "PRO_CAR_ID"))
 @Schema
 public class ProductCart extends AbstractEntity<String> {
 
@@ -38,4 +39,15 @@ public class ProductCart extends AbstractEntity<String> {
     @Schema
     private AbstractDiscount discount;
 
+    @Schema
+    @Transient
+    private BigDecimal totalByQuantity;
+
+    public BigDecimal getTotalByQuantity() {
+        return product.getPrice().multiply(new BigDecimal(quantity));
+    }
+
+    public void setTotalByQuantity() {
+        this.totalByQuantity = product.getPrice().multiply(new BigDecimal(quantity));
+    }
 }

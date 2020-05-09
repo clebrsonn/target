@@ -33,5 +33,8 @@ public abstract class AbstractDiscount extends AbstractEntity<String> {
     @Schema
     private BigDecimal percent;
 
+    @Schema
+    private BigDecimal value;
+
     public abstract Cart applyDiscount(Cart cart);
 }

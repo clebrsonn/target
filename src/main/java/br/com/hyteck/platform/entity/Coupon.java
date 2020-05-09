@@ -21,8 +21,8 @@ public class Coupon extends AbstractDiscount {
 
     @Schema
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "AFFILIATED_COUPON", joinColumns = {@JoinColumn(name = "ID_COUPON")},
-            inverseJoinColumns = {@JoinColumn(name = "ID_AFFILIATED")})
+    @JoinTable(name = "PARTNER_COUPON", joinColumns = {@JoinColumn(name = "ID_COUPON")},
+            inverseJoinColumns = {@JoinColumn(name = "ID_PARTNER")})
     @JsonBackReference
     private Set<Partner> affiliates;
 
@@ -32,7 +32,6 @@ public class Coupon extends AbstractDiscount {
 
         if (cart.getCoupon() != null && cart.getCoupon().getPercent().compareTo(this.getPercent()) < 0) {
             cart.setCoupon(this);
-
         }
 
         return cart;

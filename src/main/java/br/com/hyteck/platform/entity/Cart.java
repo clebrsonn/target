@@ -45,6 +45,7 @@ public class Cart extends AbstractEntity<String> {
                 getProductCart().add(ProductCart.builder()
                         .product(product)
                         .cart(this)
+                        .quantity(1)
                         .build()
                 );
             }

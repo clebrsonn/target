@@ -37,4 +37,9 @@ public class CouponService implements IServices<Coupon> {
     public Optional<Coupon> findByName(String couponName) {
         return couponRepository.findByName(couponName);
     }
+
+    @Override
+    public void delete(Long id) {
+        couponRepository.deleteById(id);
+    }
 }

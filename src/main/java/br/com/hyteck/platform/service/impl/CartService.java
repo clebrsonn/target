@@ -20,6 +20,8 @@ public class CartService implements IServices<Cart> {
 
     private final CouponService couponService;
 
+    private final ProductService productService;
+
     @Override
     public Page<Cart> findall(Pageable pageable) {
         return cartRepository.findAll(pageable);
@@ -35,22 +37,40 @@ public class CartService implements IServices<Cart> {
         return cartRepository.save(entity);
     }
 
-    public void addCouppon(Long cartId, String couponName) {
-        couponService.findByName(couponName).ifPresentOrElse(coupon -> {
-            final var cartById = cartRepository.findById(cartId);
-            cartById.ifPresentOrElse(cart -> {
+    @Override
+    public void delete(Long id) {
+        cartRepository.deleteById(id);
+    }
+
+    public Cart addCouppon(Long cartId, String couponName) {
+        return couponService.findByName(couponName).map(coupon -> {
+            Optional<Cart> cartById = cartRepository.findById(cartId);
+            return cartById.map(cart -> {
                 cart.setCoupon(coupon);
-                cartRepository.save(cart);
-            }, () -> {
+                return cartRepository.save(cart);
+
+            }).orElseThrow(() -> {
                 throw new EmptyResultDataAccessException(1);
             });
 
-        }, () -> {
+        }).orElseThrow(() -> {
             throw new EmptyResultDataAccessException(1);
         });
 
     }
 
-    ;
+    public Cart addProduct(Long cartId, Long productId) {
+
+        return productService.findById(productId).map(product -> cartRepository.findById(cartId).map(cart -> {
+            cart.addProduct(product);
+            return cartRepository.save(cart);
+
+        }).orElseThrow(() -> {
+            throw new EmptyResultDataAccessException(1);
+        })).orElseThrow(() -> {
+            throw new EmptyResultDataAccessException(1);
+        });
+    }
+
 
 }
