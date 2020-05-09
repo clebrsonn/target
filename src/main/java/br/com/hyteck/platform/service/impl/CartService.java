@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import static java.util.Objects.nonNull;
+
 @Service
 @AllArgsConstructor
 public class CartService implements IServices<Cart> {
@@ -49,8 +51,11 @@ public class CartService implements IServices<Cart> {
         return couponService.findByName(couponName).map(coupon -> {
             Optional<Cart> cartById = cartRepository.findById(cartId);
             return cartById.map(cart -> {
-                cart.setCoupon(coupon);
-                return cartRepository.save(cart);
+                if (nonNull(cart.getCoupon()) && cart.getCoupon().getPercent().compareTo(coupon.getPercent()) < 0) {
+                    cart.setCoupon(coupon);
+                    cart = cartRepository.save(cart);
+                }
+                return cart;
 
             }).orElseThrow(() -> {
                 throw new EmptyResultDataAccessException(1);
@@ -63,14 +68,13 @@ public class CartService implements IServices<Cart> {
     }
 
 
-
     public Cart calculateTotal(Long cartId) {
         final var cart = findById(cartId).orElseThrow(() -> {
             throw new EmptyResultDataAccessException(1);
         });
 
-        BigDecimal subtotal = calculateSubTotal(cart).subtract(cart.getPercentDiscount().multiply(cart.getPercentDiscount()));
-        BigDecimal total = subtotal.subtract(cart.getCoupon().getPercent().multiply(subtotal));
+        BigDecimal subtotal = calculateSubTotal(cart);
+        BigDecimal total = subtotal.subtract(cart.getPercentDiscount().multiply(subtotal));
         cart.setTotal(total);
         return cartRepository.save(cart);
     }
