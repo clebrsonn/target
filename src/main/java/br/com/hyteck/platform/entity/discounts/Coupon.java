@@ -3,14 +3,19 @@ package br.com.hyteck.platform.entity.discounts;
 import br.com.hyteck.platform.entity.Cart;
 import br.com.hyteck.platform.entity.Partner;
 import br.com.hyteck.platform.frw.AbstractDiscount;
+import br.com.hyteck.platform.pattern.IDiscount;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Getter
 @Builder
@@ -30,11 +35,21 @@ public class Coupon extends AbstractDiscount {
 
     @Override
     public Cart applyDiscount(Cart cart) {
-
-        if (cart.getCoupon() != null && cart.getCoupon().getPercent().compareTo(this.getPercent()) < 0) {
-            cart.setCoupon(this);
-        }
-
+        cart.setPercentDiscount(cart.getCoupon().getPercent().divide(new BigDecimal(100)));
         return cart;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Coupon)) return false;
+        if (!super.equals(o)) return false;
+        Coupon coupon = (Coupon) o;
+        return getAffiliates().equals(coupon.getAffiliates());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getAffiliates());
     }
 }

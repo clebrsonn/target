@@ -49,7 +49,8 @@ public class ProductCartService implements IServices<ProductCart> {
         return productService.findById(productId).map(product -> cartService.findById(cartId).map(cart -> {
             cart = cart.addProduct(product);
             couponService.verifyDiscount(cart);
-            return cartService.create(cart);
+            productCartRepository.saveAll(cart.getCartProducts());
+            return cartService.calculateTotal(cart.getId());
 
         }).orElseThrow(() -> {
             throw new EmptyResultDataAccessException(1);

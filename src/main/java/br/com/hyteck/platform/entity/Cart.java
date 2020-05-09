@@ -2,6 +2,7 @@ package br.com.hyteck.platform.entity;
 
 import br.com.hyteck.platform.frw.AbstractDiscount;
 import br.com.hyteck.platform.frw.AbstractEntity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -24,6 +25,7 @@ public class Cart extends AbstractEntity<String> {
 
     @OneToMany(mappedBy = "cart")
     @Schema
+    @JsonManagedReference
     private List<ProductCart> cartProducts;
 
     @ManyToOne
@@ -31,33 +33,48 @@ public class Cart extends AbstractEntity<String> {
     private AbstractDiscount coupon;
 
     @Schema
-    private BigDecimal percentDiscount;
+    @Builder.Default
+    private BigDecimal percentDiscount = new BigDecimal(0);
 
     @Schema
-    private BigDecimal total;
+    @Builder.Default
+    private BigDecimal total = new BigDecimal(0);
 
     @Schema
-    private BigDecimal subTotal;
+    @Builder.Default
+    private BigDecimal subTotal = new BigDecimal(0);
 
 
     public Cart addProduct(Product product) {
-        cartProducts.forEach(pCart -> {
-            if (pCart.getId().equals(product.getId())) {
-                pCart.setQuantity(pCart.getQuantity() + 1);
-                pCart.getTotalByQuantity();
-                pCart.getTotalWithDiscount();
-                pCart.setCart(this);
-            } else {
-                getCartProducts().add(ProductCart.builder()
-                        .product(product)
-                        .cart(this)
-                        .quantity(1)
-                        .build()
-                );
-            }
+        if (cartProducts.isEmpty()) {
+            cartProducts.add(ProductCart.builder()
+                    .product(product)
+                    .cart(this)
+                    .quantity(1)
+                    .totalByQuantity(product.getPrice())
+                    .totalWithDiscount(product.getPrice())
+                    .build());
+        } else {
+            cartProducts.forEach(pCart -> {
+                if (pCart.getProduct().getId().equals(product.getId())) {
+                    pCart.setQuantity(pCart.getQuantity() + 1);
+                    pCart.getTotalByQuantity();
+                    pCart.getTotalWithDiscount();
+                    pCart.setCart(this);
+                } else {
+                    getCartProducts().add(ProductCart.builder()
+                            .product(product)
+                            .cart(this)
+                            .quantity(1)
+                            .totalByQuantity(product.getPrice())
+                            .totalWithDiscount(product.getPrice())
+                            .build()
+                    );
+                }
 
 
-        });
+            });
+        }
         return this;
     }
 

@@ -11,9 +11,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import java.util.Objects;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
 @Getter
 @Builder
 @NoArgsConstructor
@@ -30,4 +30,17 @@ public class Partner extends AbstractEntity<String> {
 
     private String name;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Partner)) return false;
+        if (!super.equals(o)) return false;
+        Partner partner = (Partner) o;
+        return getName().equals(partner.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getName());
+    }
 }

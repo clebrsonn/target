@@ -23,8 +23,8 @@ public class ProductCartController extends AbstractController<ProductCart> {
     }
 
 
-    @PutMapping(value = "{cartId}/product/{productId}")
-    public ResponseEntity<Cart> addProduct(@Parameter @PathVariable Long cartId, @PathVariable Long productId) {
+    @PostMapping(value = "{cartId}/product/{productId}")
+    public ResponseEntity<Cart> create(@Parameter @PathVariable Long cartId, @PathVariable Long productId) {
         return ResponseEntity.ok(productCartService.addProduct(cartId, productId));
     }
 

@@ -3,7 +3,10 @@ package br.com.hyteck.platform.entity;
 import br.com.hyteck.platform.frw.AbstractEntity;
 import com.sun.istack.NotNull;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.validation.constraints.NotEmpty;
@@ -18,8 +21,9 @@ import java.util.Objects;
 @Schema
 public class Product extends AbstractEntity<String> {
 
-//    @Currency(value = {"BRL", "USD"})
+    //    @Currency(value = {"BRL", "USD"})
     @Schema
+    @NotNull
     private BigDecimal price;
 
     @Schema
