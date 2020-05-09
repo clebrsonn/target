@@ -1,7 +1,7 @@
 package br.com.hyteck.platform.entity.discounts;
 
 import br.com.hyteck.platform.entity.Cart;
-import br.com.hyteck.platform.frw.AbstractDiscount;
+import br.com.hyteck.platform.framework.AbstractDiscount;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

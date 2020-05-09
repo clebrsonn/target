@@ -1,7 +1,7 @@
 package br.com.hyteck.platform.controller;
 
 import br.com.hyteck.platform.entity.discounts.Coupon;
-import br.com.hyteck.platform.frw.AbstractController;
+import br.com.hyteck.platform.framework.AbstractController;
 import br.com.hyteck.platform.service.IServices;
 import br.com.hyteck.platform.service.impl.CouponService;
 import lombok.AllArgsConstructor;

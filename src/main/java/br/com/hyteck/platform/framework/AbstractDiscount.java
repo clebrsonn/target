@@ -1,4 +1,4 @@
-package br.com.hyteck.platform.frw;
+package br.com.hyteck.platform.framework;
 
 import br.com.hyteck.platform.entity.Cart;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -25,6 +25,7 @@ public abstract class AbstractDiscount extends AbstractEntity<String> {
     @NotNull
     @Size(min = 3)
     @Schema
+    @Column(unique = true)
     private String name;
 
     @Schema
@@ -51,9 +52,10 @@ public abstract class AbstractDiscount extends AbstractEntity<String> {
      * last object in chain.
      */
     public Cart verifyDiscount(Cart cart) {
+        applyDiscount(cart);
         if (next != null) {
             return next.applyDiscount(cart);
-        }else{
+        } else {
             return cart;
         }
     }

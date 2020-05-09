@@ -2,8 +2,7 @@ package br.com.hyteck.platform.service.impl;
 
 import br.com.hyteck.platform.entity.Cart;
 import br.com.hyteck.platform.entity.discounts.Coupon;
-import br.com.hyteck.platform.factory.DiscountProcessFactory;
-import br.com.hyteck.platform.frw.AbstractDiscount;
+import br.com.hyteck.platform.pattern.factory.DiscountProcessFactory;
 import br.com.hyteck.platform.repository.CouponRepository;
 import br.com.hyteck.platform.service.IServices;
 import lombok.AllArgsConstructor;

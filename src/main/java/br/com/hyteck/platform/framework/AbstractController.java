@@ -1,4 +1,4 @@
-package br.com.hyteck.platform.frw;
+package br.com.hyteck.platform.framework;
 
 import br.com.hyteck.platform.service.IServices;
 import io.swagger.v3.oas.annotations.Operation;

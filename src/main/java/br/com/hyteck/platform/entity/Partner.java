@@ -1,7 +1,7 @@
 package br.com.hyteck.platform.entity;
 
 import br.com.hyteck.platform.entity.discounts.Coupon;
-import br.com.hyteck.platform.frw.AbstractEntity;
+import br.com.hyteck.platform.framework.AbstractEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.v3.oas.annotations.media.Schema;
