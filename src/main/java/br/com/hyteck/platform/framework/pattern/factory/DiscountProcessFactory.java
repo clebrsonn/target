@@ -1,4 +1,4 @@
-package br.com.hyteck.platform.pattern.factory;
+package br.com.hyteck.platform.framework.pattern.factory;
 
 import br.com.hyteck.platform.entity.discounts.DiscountByQuantity;
 import br.com.hyteck.platform.entity.discounts.DiscountProgessive;
