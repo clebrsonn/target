@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -47,14 +48,15 @@ public class ProductCartService implements IServices<ProductCart> {
     public Cart addProduct(Long cartId, Long productId) {
 
         return productService.findById(productId).map(product -> cartService.findById(cartId).map(cart -> {
-            cart = cart.addProduct(product);
-            couponService.verifyDiscount(cart);
-            productCartRepository.saveAll(cart.getCartProducts());
-            return cartService.calculateTotal(cart.getId());
+                    cart = cart.addProduct(product);
+                    couponService.verifyDiscount(cart);
+                    productCartRepository.saveAll(cart.getCartProducts());
+                    return cartService.calculateTotal(cart.getId());
 
-        }).orElseThrow(() -> {
-            throw new EmptyResultDataAccessException(1);
-        })).orElseThrow(() -> {
+                }).orElse(cartService.create(Cart.builder()
+                        .cartProducts(Collections.singletonList(ProductCart.builder().product(product).build()))
+                .build()))
+        ).orElseThrow(() -> {
             throw new EmptyResultDataAccessException(1);
         });
     }
