@@ -1,6 +1,7 @@
 package br.com.hyteck.platform.service.impl;
 
 import br.com.hyteck.platform.entity.Cart;
+import br.com.hyteck.platform.entity.ProductCart;
 import br.com.hyteck.platform.repository.CartRepository;
 import br.com.hyteck.platform.service.IServices;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -34,6 +36,7 @@ public class CartService implements IServices<Cart> {
 
     @Override
     public Cart create(Cart entity) {
+        couponService.verifyDiscount(entity);
         return cartRepository.save(entity);
     }
 
@@ -59,18 +62,31 @@ public class CartService implements IServices<Cart> {
 
     }
 
-    public Cart addProduct(Long cartId, Long productId) {
 
-        return productService.findById(productId).map(product -> cartRepository.findById(cartId).map(cart -> {
-            cart.addProduct(product);
-            return cartRepository.save(cart);
 
-        }).orElseThrow(() -> {
-            throw new EmptyResultDataAccessException(1);
-        })).orElseThrow(() -> {
+    public Cart calculateTotal(Long cartId) {
+        final var cart = findById(cartId).orElseThrow(() -> {
             throw new EmptyResultDataAccessException(1);
         });
+
+        BigDecimal subtotal = calculateSubTotal(cart).subtract(cart.getPercentDiscount().multiply(cart.getPercentDiscount()));
+        BigDecimal total = subtotal.subtract(cart.getCoupon().getPercent().multiply(subtotal));
+        cart.setTotal(total);
+        return cartRepository.save(cart);
     }
 
+    BigDecimal calculateSubTotal(Cart cart) {
+        couponService.verifyDiscount(cart);
+
+        BigDecimal sumProdCart = new BigDecimal(0);
+        BigDecimal subTotal = new BigDecimal(0);
+        for (ProductCart cartProduct : cart.getCartProducts()) {
+            sumProdCart = sumProdCart.add(cartProduct.getTotalWithDiscount());
+
+        }
+
+        cart.setSubTotal(sumProdCart);
+        return sumProdCart;
+    }
 
 }

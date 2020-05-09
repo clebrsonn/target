@@ -1,5 +1,6 @@
 package br.com.hyteck.platform.entity;
 
+import br.com.hyteck.platform.entity.discounts.Coupon;
 import br.com.hyteck.platform.frw.AbstractEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -10,7 +11,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
-import java.util.HashSet;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)

@@ -1,5 +1,7 @@
-package br.com.hyteck.platform.entity;
+package br.com.hyteck.platform.entity.discounts;
 
+import br.com.hyteck.platform.entity.Cart;
+import br.com.hyteck.platform.entity.Partner;
 import br.com.hyteck.platform.frw.AbstractDiscount;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,7 +17,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema
-@Table(name = "COUPON")
 public class Coupon extends AbstractDiscount {
 
 

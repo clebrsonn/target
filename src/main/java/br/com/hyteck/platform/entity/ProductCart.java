@@ -35,19 +35,30 @@ public class ProductCart extends AbstractEntity<String> {
     @Schema
     private Integer quantity;
 
-    @OneToOne
     @Schema
-    private AbstractDiscount discount;
+    private BigDecimal discount;
 
     @Schema
-    @Transient
     private BigDecimal totalByQuantity;
 
+    private BigDecimal totalWithDiscount;
+
     public BigDecimal getTotalByQuantity() {
-        return product.getPrice().multiply(new BigDecimal(quantity));
+        setTotalByQuantity();
+        return totalByQuantity;
     }
 
-    public void setTotalByQuantity() {
+    private void setTotalByQuantity() {
         this.totalByQuantity = product.getPrice().multiply(new BigDecimal(quantity));
+    }
+
+
+    public BigDecimal getTotalWithDiscount() {
+        setTotalWithDiscount();
+        return totalWithDiscount;
+    }
+
+    private void setTotalWithDiscount() {
+        this.totalWithDiscount = getTotalByQuantity().subtract(getTotalByQuantity().multiply(discount));
     }
 }

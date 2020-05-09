@@ -19,19 +19,22 @@ public class CartController extends AbstractController<Cart> {
 
     private final CartService cartService;
 
+    @Override
+    protected IServices<Cart> getService() {
+        return cartService;
+    }
+
+
     @GetMapping(value = "{cartId}/coupon/{couponName}")
     public ResponseEntity<Cart> addCoupon(@Parameter @PathVariable Long cartId, @PathVariable String couponName) {
         Cart cart = cartService.addCouppon(cartId, couponName);
         return ResponseEntity.ok(cart);
     }
 
-    @GetMapping(value = "{cartId}/product/{productId}")
-    public ResponseEntity<Cart> addProduct(@Parameter @PathVariable Long cartId, @PathVariable Long productId) {
-        return ResponseEntity.ok(cartService.addProduct(cartId, productId));
+    @GetMapping(value = "{id}/total")
+    public ResponseEntity<Cart> removeProduct(@Parameter @PathVariable Long id) {
+        return ResponseEntity.ok(cartService.calculateTotal(id));
     }
 
-    @Override
-    protected IServices<Cart> getService() {
-        return cartService;
-    }
+
 }
