@@ -69,9 +69,11 @@ public class CartService implements IServices<Cart> {
 
 
     public Cart calculateTotal(Long cartId) {
+
         final var cart = findById(cartId).orElseThrow(() -> {
             throw new EmptyResultDataAccessException(1);
         });
+        couponService.verifyDiscount(cart);
 
         BigDecimal subtotal = calculateSubTotal(cart);
         BigDecimal total = subtotal.subtract(cart.getPercentDiscount().multiply(subtotal));
@@ -80,10 +82,8 @@ public class CartService implements IServices<Cart> {
     }
 
     BigDecimal calculateSubTotal(Cart cart) {
-        couponService.verifyDiscount(cart);
 
         BigDecimal sumProdCart = new BigDecimal(0);
-        BigDecimal subTotal = new BigDecimal(0);
         for (ProductCart cartProduct : cart.getCartProducts()) {
             sumProdCart = sumProdCart.add(cartProduct.getTotalWithDiscount());
 

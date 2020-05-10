@@ -11,6 +11,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -26,7 +27,8 @@ public class Partner extends AbstractEntity<String> {
     @Schema
     @JsonIgnore
     @JsonManagedReference
-    private Set<Coupon> coupons;
+    @Builder.Default
+    private Set<Coupon> coupons =new  HashSet<>();
 
     private String name;
 

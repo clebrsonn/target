@@ -10,6 +10,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
+import static java.util.Objects.nonNull;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -51,13 +53,15 @@ public abstract class AbstractDiscount extends AbstractEntity<String> {
      * Runs check on the next object in chain or ends traversing if we're in
      * last object in chain.
      */
-    public Cart verifyDiscount(Cart cart) {
+    public void verifyDiscount(Cart cart) {
         applyDiscount(cart);
         if (next != null) {
-            return next.applyDiscount(cart);
-        } else {
-            return cart;
+            next.verifyDiscount(cart);
+        }
+        if (nonNull(cart.getCoupon())) {
+            cart.getCoupon().applyDiscount(cart);
         }
     }
+
 
 }

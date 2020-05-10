@@ -6,12 +6,13 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @EqualsAndHashCode(callSuper = false)
 @Setter
@@ -23,10 +24,11 @@ import java.util.stream.Collectors;
 @Entity
 public class Cart extends AbstractEntity<String> {
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
     @Schema
     @JsonManagedReference
-    private List<ProductCart> cartProducts;
+    @Builder.Default
+    private List<ProductCart> cartProducts = new ArrayList<>();
 
     @ManyToOne
     @Schema
@@ -58,8 +60,6 @@ public class Cart extends AbstractEntity<String> {
             cartProducts.forEach(pCart -> {
                 if (pCart.getProduct().getId().equals(product.getId())) {
                     pCart.setQuantity(pCart.getQuantity() + 1);
-                    pCart.getTotalByQuantity();
-                    pCart.getTotalWithDiscount();
                     pCart.setCart(this);
                 } else {
                     getCartProducts().add(ProductCart.builder()
@@ -77,42 +77,4 @@ public class Cart extends AbstractEntity<String> {
         }
         return this;
     }
-
-
-    public Cart removeProduct(Product product) {
-        cartProducts.forEach(pCart -> {
-            if (pCart.getId().equals(product.getId()) && pCart.getQuantity() > 1) {
-                pCart.setQuantity(pCart.getQuantity() - 1);
-                pCart.getTotalByQuantity();
-                pCart.getTotalWithDiscount();
-                pCart.setCart(this);
-            } else {
-                final var productCartFiltered = getCartProducts().stream().
-                        filter(productCart -> !pCart.getId().equals(product.getId())).collect(Collectors.toList());
-                setCartProducts(productCartFiltered);
-            }
-
-        });
-        return this;
-    }
-
-
-//    public BigDecimal getTotal() {
-//
-//
-//
-//        return total;
-//    }
-//
-//    public void setTotal(BigDecimal total) {
-//        this.total = total;
-//    }
-//
-//    public BigDecimal getSubTotal() {
-//        return subTotal;
-//    }
-//
-//    public void setSubTotal(BigDecimal subTotal) {
-//        this.subTotal = subTotal;
-//    }
 }
