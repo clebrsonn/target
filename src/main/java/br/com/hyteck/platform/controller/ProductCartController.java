@@ -4,6 +4,7 @@ import br.com.hyteck.platform.entity.Cart;
 import br.com.hyteck.platform.service.impl.ProductCartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/cartproduct")
 @AllArgsConstructor
+@Tag(name = "Api de Carrinho")
 public class ProductCartController {
 
     private final ProductCartService productCartService;
