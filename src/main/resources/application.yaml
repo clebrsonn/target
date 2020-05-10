@@ -7,7 +7,7 @@ spring:
       ddl-auto: update
   data:
     rest:
-      basePath: /api
+      base-path: /api
 
 debug: true
 
