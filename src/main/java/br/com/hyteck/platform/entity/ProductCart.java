@@ -7,12 +7,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import java.math.BigDecimal;
+
+import static java.util.Objects.nonNull;
 
 @Entity
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,28 +28,31 @@ public class ProductCart extends AbstractEntity<String> {
 //    @JoinColumn(name = "id")
 //    @MapsId
     @JsonIgnore
+    @Setter
     private Product product;
 
     @ManyToOne
     @Schema
     @JsonBackReference
+    @Setter
     private Cart cart;
 
     @Range(min = 1)
     @Schema
     @Builder.Default
-    private Integer quantity =1;
+    private Integer quantity = 1;
 
     @Schema
     @Builder.Default
+    @Setter
     private BigDecimal discount = new BigDecimal(0);
 
     @Schema
     @Builder.Default
-    private BigDecimal totalByQuantity =new BigDecimal(0);
+    private BigDecimal totalByQuantity = new BigDecimal(0);
 
     @Builder.Default
-    private BigDecimal totalWithDiscount =new BigDecimal(0);
+    private BigDecimal totalWithDiscount = new BigDecimal(0);
 
     public BigDecimal getTotalByQuantity() {
         setTotalByQuantity();
@@ -53,16 +60,19 @@ public class ProductCart extends AbstractEntity<String> {
     }
 
     private void setTotalByQuantity() {
-        this.totalByQuantity = product.getPrice().multiply(new BigDecimal(quantity));
     }
 
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+        calculateValue();
 
-    public BigDecimal getTotalWithDiscount() {
-        setTotalWithDiscount();
-        return totalWithDiscount;
     }
 
-    private void setTotalWithDiscount() {
-        this.totalWithDiscount = getTotalByQuantity().subtract(getTotalByQuantity().multiply(discount));
+    private void calculateValue() {
+        if (nonNull(product)) {
+            this.totalByQuantity = product.getPrice().multiply(new BigDecimal(quantity));
+
+            this.totalWithDiscount = totalByQuantity.subtract(totalByQuantity.multiply(discount));
+        }
     }
 }
