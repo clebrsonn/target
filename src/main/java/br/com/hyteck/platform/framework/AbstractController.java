@@ -1,4 +1,4 @@
-package br.com.hyteck.platform.frw;
+package br.com.hyteck.platform.framework;
 
 import br.com.hyteck.platform.service.IServices;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,6 +27,7 @@ public abstract class AbstractController<Entity> {
         return new ResponseEntity<>(entities, HttpStatus.OK);
     }
 
+    @Operation(summary = "selecionar todas as entidades")
     @GetMapping
     public ResponseEntity<Page<Entity>> findAll(@Parameter @Valid Pageable pageable) {
 
@@ -34,18 +35,21 @@ public abstract class AbstractController<Entity> {
         return new ResponseEntity<>(Entitys, HttpStatus.OK);
     }
 
+    @Operation(summary = "encontrar entidade por Id")
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Optional<Entity>> findById(@Parameter @PathVariable Long id) {
         Optional<Entity> Entity = getService().findById(id);
         return ResponseEntity.ok(Entity);
     }
 
+    @Operation(summary = "criar entidade")
     @PostMapping
     public ResponseEntity<Entity> create(@Parameter @RequestBody @Valid Entity entity) {
         final var entitySave = getService().create(entity);
         return new ResponseEntity<>(entitySave, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "remover entidade por Id")
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@Parameter @PathVariable Long id) {

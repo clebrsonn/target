@@ -1,13 +1,10 @@
-package br.com.hyteck.platform.frw;
+package br.com.hyteck.platform.framework;
 
 import br.com.hyteck.platform.entity.Cart;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -28,13 +25,39 @@ public abstract class AbstractDiscount extends AbstractEntity<String> {
     @NotNull
     @Size(min = 3)
     @Schema
+    @Column(unique = true)
     private String name;
 
     @Schema
     private BigDecimal percent;
 
-    @Schema
-    private BigDecimal value;
+//    @Schema
+//    private BigDecimal value;
+
+    @Transient
+    private AbstractDiscount next;
 
     public abstract Cart applyDiscount(Cart cart);
+
+    /**
+     * Builds chains of middleware objects.
+     */
+    public AbstractDiscount linkWith(AbstractDiscount next) {
+        this.next = next;
+        return next;
+    }
+
+    /**
+     * Runs check on the next object in chain or ends traversing if we're in
+     * last object in chain.
+     */
+    public Cart verifyDiscount(Cart cart) {
+        applyDiscount(cart);
+        if (next != null) {
+            return next.applyDiscount(cart);
+        } else {
+            return cart;
+        }
+    }
+
 }

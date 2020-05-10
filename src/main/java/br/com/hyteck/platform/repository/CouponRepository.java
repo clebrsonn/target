@@ -1,6 +1,6 @@
 package br.com.hyteck.platform.repository;
 
-import br.com.hyteck.platform.entity.Coupon;
+import br.com.hyteck.platform.entity.discounts.Coupon;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
