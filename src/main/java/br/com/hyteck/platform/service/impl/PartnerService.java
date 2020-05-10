@@ -31,4 +31,8 @@ public class PartnerService implements IServices<Partner> {
     public Partner create(Partner product) {
         return partnerRepository.save(product);
     }
+    @Override
+    public void delete(Long id) {
+        partnerRepository.deleteById(id);
+    }
 }

@@ -33,4 +33,9 @@ public class ProductService implements IServices<Product> {
         return productRepository.save(product);
     }
 
+    @Override
+    public void delete(Long id) {
+        productRepository.deleteById(id);
+    }
+
 }

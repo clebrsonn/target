@@ -1,9 +1,10 @@
 package br.com.hyteck.platform.service.impl;
 
-import br.com.hyteck.platform.entity.Coupon;
+import br.com.hyteck.platform.entity.Cart;
+import br.com.hyteck.platform.entity.discounts.Coupon;
+import br.com.hyteck.platform.framework.pattern.factory.DiscountProcessFactory;
 import br.com.hyteck.platform.repository.CouponRepository;
 import br.com.hyteck.platform.service.IServices;
-import jdk.jshell.spi.ExecutionControl;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,8 @@ public class CouponService implements IServices<Coupon> {
 
 
     private final CouponRepository couponRepository;
+
+    private final DiscountProcessFactory discountProcessFactory;
 
 
     public Page<Coupon> findall(Pageable pageable) {
@@ -36,5 +39,16 @@ public class CouponService implements IServices<Coupon> {
 
     public Optional<Coupon> findByName(String couponName) {
         return couponRepository.findByName(couponName);
+    }
+
+    @Override
+    public void delete(Long id) {
+        couponRepository.deleteById(id);
+    }
+
+    public void verifyDiscount(Cart entity) {
+        final var discount = discountProcessFactory.chainProcessor();
+
+        discount.verifyDiscount(entity);
     }
 }

@@ -22,4 +22,6 @@ public interface IServices<T> {
     Optional<T> findById(Long id);
 
     T create(T entity);
+
+    void delete(Long id);
 }
