@@ -34,7 +34,8 @@ public class Coupon extends AbstractDiscount {
 
     @Override
     public Cart applyDiscount(Cart cart) {
-        cart.setPercentDiscount(cart.getCoupon().getPercent().divide(new BigDecimal(100)));
+        final var percent = cart.getPercentDiscount().add(cart.getCoupon().getPercent().divide(new BigDecimal(100)));
+        cart.setPercentDiscount(percent);
         return cart;
     }
 
